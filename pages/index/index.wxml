@@ -56,15 +56,17 @@
   <view class="topList">
     <!-- 头部 -->
     <NavHeader title="排行榜" nav="热歌风向标"></NavHeader>
+
+
     <!-- 内容 -->
     <swiper class="topListSwiper" next-margin="100rpx">
-      <swiper-item wx:for="{{this.data.topList}}" wx:key="name">
+      <swiper-item wx:for="{{topList}}" wx:key="name">
         <view class="swiperItem">
-          <view class="title">{{this.data.item.name}}</view>
-          <view class="musicItem" wx:for="{{this.data.item.tracks}}" wx:key="id" wx:for-item="musicItem">
+          <view class="title">{{item.name}}</view>
+          <view class="musicItem" wx:for="{{item.tracks}}" wx:key="id" wx:for-item="musicItem">
             <image src="{{this.data.musicItem.al.picUrl}}"></image>
             <view class="count">{{index + 1}}</view>
-            <view bindtap="toSongDetail" id="{{musicItem.id}}" class="musicName">{{musicItem.name}}</view>
+            <view bindtap="toSongDetail" id="{{musicItem.id}}" class="musicName">{{musicItem.first}}</view>
           </view>
         </view>
       </swiper-item>

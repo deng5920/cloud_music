@@ -7,11 +7,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    year: '',//年
-    month: '',//月
-    day: '',//天
-    recommendList: [],//推荐列表数据
-    index: 0,//音乐下标
+    year: '', //年
+    month: '', //月
+    day: '', //天
+    recommendList: [], //推荐列表数据
+    index: 0, //音乐下标
   },
 
   /**
@@ -20,11 +20,11 @@ Page({
   onLoad: function (options) {
     //判断用户是否登录
     let userIinfo = wx.getStorageSync('userInfo');
-    if(!userIinfo){
+    if (!userIinfo) {
       wx.showToast({
         title: '请先进行登录',
         icon: 'none',
-        success: ()=>{
+        success: () => {
           //跳转至登录界面
           wx.reLaunch({
             url: '/pages/login/login',
@@ -44,12 +44,15 @@ Page({
     this.getRecommendList();
 
     //订阅来自songDetail页面发布的消息
-    PubSub.subscribe('switchMusic',(msg,type) => {
-      let {recommendList,index} = this.data;
-      if(type === 'pre'){//上一首
+    PubSub.subscribe('switchMusic', (msg, type) => {
+      let {
+        recommendList,
+        index
+      } = this.data;
+      if (type === 'pre') { //上一首
         (index === 0) && (index = recommendList.length);
         index -= 1;
-      }else{//下一首
+      } else { //下一首
         (index === recommendList.length - 1) && (index = -1);
         index += 1;
       }
@@ -61,22 +64,25 @@ Page({
 
       let musicId = recommendList[index].id;
       //将音乐id回传给songDetail页面
-      PubSub.publish('musicId',musicId);
+      PubSub.publish('musicId', musicId);
     })
   },
-  
+
   //获取每日推荐数据
-  async getRecommendList(){
+  async getRecommendList() {
     let recommendListData = await request('/recommend/songs');
-    
+
     this.setData({
       recommendList: recommendListData.recommend
     })
 
   },
   //跳转至songDetail页面
-  toSongDetail(event){
-    let {song,index} = event.currentTarget.dataset;
+  toSongDetail(event) {
+    let {
+      song,
+      index
+    } = event.currentTarget.dataset;
 
     this.setData({
       index: index
@@ -91,7 +97,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**

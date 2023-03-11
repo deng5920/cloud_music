@@ -36,7 +36,7 @@ Page({
       let topListData = await request('/toplist/detail', {
         index: index++
       });
-      console.log(topListData.list[index].name);
+
       let topListItem = {
         name: topListData.list[index].name,
         tracks: topListData.list[index].tracks.slice(0, 3)

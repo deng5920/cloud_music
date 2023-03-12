@@ -6,8 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    phone: '',//手机号
-    password: ''//密码
+    phone: '', //手机号
+    phonecode: '', //手机号验证码
+    password: '', //密码
+    codekey: '',
+    codekeyimg: ''
   },
 
   /**
@@ -18,19 +21,34 @@ Page({
   },
 
   //表单项内容发生改变
-  handleInput(event){
+  handleInput(event) {
     let type = event.currentTarget.id;
     this.setData({
       [type]: event.detail.value
     })
   },
+  async getaccount() {
+    let result = await request('/user/account');
+    console.log(result);
+  },
+  async getsubcount() {
+    let result = await request('/user/subcount');
+    console.log(result);
+  },
+  async getphonecode() {
+    let result = await request('/captcha/sent?phone=' + this.data.phone);
+    console.log(result);
+  },
   //登录
-  async login(){
+  async login() {
     //得到数据
-    let {phone,password} = this.data;
+    let {
+      phone,
+      phonecode,
+    } = this.data;
     //验证
     //手机号不为空
-    if(!phone){
+    if (!phone) {
       wx.showToast({
         title: '手机号不能为空',
         icon: 'none'
@@ -40,44 +58,43 @@ Page({
     //正则验证是一个手机号
     //正则表达式
     let phoneReg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
-    if(!phoneReg.test(phone)){
+    if (!phoneReg.test(phone)) {
       wx.showToast({
         title: '手机号格式错误',
         icon: 'none'
       })
       return;
     }
-    //密码不为空
-    if(!password){
-      wx.showToast({
-        title: '密码不能为空',
-        icon: 'none'
-      })
-      return;
-    }
+
     //后端验证
-    let result = await request('/login/cellphone',{phone,password,isLogin:true});
-    if(result.code === 200){
+    let result = await request('/captcha/verify?phone=' + phone + '&captcha=' + phonecode);
+    console.log(this.data.phone);
+    console.log(this.data.phonecode);
+    console.log(result);
+    if (result.code === 200) {
       wx.showToast({
         title: '登陆成功',
       })
+      this.getaccount()
+      this.getsubcount()
+
       //存储个人信息
       wx.setStorageSync('userInfo', JSON.stringify(result.profile))
       //从登录页返回个人中心页
       wx.reLaunch({
         url: '/pages/personal/personal'
       })
-    }else if(result.code === 400){
+    } else if (result.code === 400) {
       wx.showToast({
         title: '手机号错误',
         icon: 'none'
       })
-    }else if(result.code === 502){
+    } else if (result.code === 502) {
       wx.showToast({
         title: '密码错误',
         icon: 'none'
       })
-    }else{
+    } else {
       wx.showToast({
         title: '登陆失败，请重新登录',
         icon: 'none'

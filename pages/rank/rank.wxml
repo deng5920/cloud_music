@@ -1,0 +1,10 @@
+<!--pages/rank.wxml-->
+<!-- 内容 -->
+<scroll-view class="rankContainer" enable-flex="true" scroll-x="true">
+  <view wx:for="{{rankingList}}" wx:key="id" wx:for-item="rankingList" class="rankItem">
+    <image src="{{rankingList.coverImgUrl}}" id="{{rankingList.id}}"></image>
+    <view class="rankitemText">
+      <text bindtap="toPlayList">{{rankingList.name}}</text>
+    </view>
+  </view>
+</scroll-view>

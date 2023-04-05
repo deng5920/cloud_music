@@ -73,6 +73,12 @@ Page({
       url: '/pages/playlist/playlist?id=' + event.currentTarget.id
     })
   },
+  //跳转到排行榜
+  toRankList() {
+    wx.navigateTo({
+      url: '/pages/rank/rank'
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

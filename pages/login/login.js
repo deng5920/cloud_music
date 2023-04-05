@@ -8,16 +8,13 @@ Page({
   data: {
     phone: '', //手机号
     phonecode: '', //手机号验证码
-    password: '', //密码
-    codekey: '',
-    codekeyimg: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: function () {
+    this.getsubcount()
   },
 
   //表单项内容发生改变
@@ -68,8 +65,6 @@ Page({
 
     //后端验证
     let result = await request('/captcha/verify?phone=' + phone + '&captcha=' + phonecode);
-    console.log(this.data.phone);
-    console.log(this.data.phonecode);
     console.log(result);
     if (result.code === 200) {
       wx.showToast({

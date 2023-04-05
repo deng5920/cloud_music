@@ -1,0 +1,17 @@
+/* pages/rank.wxss */
+.rankContainer {
+  display: flex;
+  margin-top: 10px;
+}
+
+.rankItem {
+  margin: 0 10px;
+}
+
+.rankItem image {
+  border-radius: 15%;
+}
+
+.rankitemText {
+  text-align: center;
+}

@@ -6,7 +6,8 @@
     "pages/recommendSong/recommendSong",
     "pages/songDetail/songDetail",
     "pages/login/login",
-    "pages/playlist/playlist"
+    "pages/playlist/playlist",
+    "pages/rank/rank"
   ],
   "window": {
     "navigationBarBackgroundColor": "#d43c33",
